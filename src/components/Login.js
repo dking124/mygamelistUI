@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Copyright(props) {
   return (
@@ -29,12 +30,14 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function SignIn() {
-  
+export default function Login() {
+  const [error, setError] = useState(false);
+  const navigate = useNavigate()
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const response = await axios.post('http://127.0.0.1:8000/igdb/api/token/', 
+    await axios.post('http://127.0.0.1:8000/igdb/api/token/', 
       {
         email: data.get('email'),
         password: data.get('password')
@@ -44,9 +47,11 @@ export default function SignIn() {
       }})
       .then(function(response){
         localStorage.setItem('access_token', response.data.access)
+        navigate("/")
       })
       .catch(function (error){
         console.log(error)
+        setError(true)
       });
   };
 
@@ -88,6 +93,8 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
+              error={error}
+              helperText={error ? 'Invalid Credentials' : ''}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
