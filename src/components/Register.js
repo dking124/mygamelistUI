@@ -12,6 +12,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import SearchAppBar from './AppBar';
 
 function Copyright(props) {
   return (
@@ -62,6 +63,7 @@ export default function Register() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
+      <SearchAppBar/>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
