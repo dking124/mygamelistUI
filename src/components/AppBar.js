@@ -4,10 +4,11 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
-import HomeIcon from '@mui/icons-material/Home';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -52,21 +53,22 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar() {
-const pages = ['Games', 'Genres', 'Upcoming']
+const pages = ['games', 'genres', 'upcoming', 'about']
 
   return (
     <Box sx={{ flexGrow: 1, display: { xs: 'flex'} }}>
       <AppBar position="static">
         <Toolbar>
-          <Button startIcon={<HomeIcon/>}
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="home"
-            sx={{ mr: 2 }}
-          >
-            Home
-          </Button>
+          <IconButton size='large' href='/' sx={{ mr: 2 }}>
+            <SportsEsportsIcon/>
+          </IconButton>
+          <Box sx={{ display: {xs:'none', sm: 'block'}}}>
+            {pages.map((item) => (
+              <Button href={item} key={item} sx={{ color: '#fff' }}>
+                {item}
+              </Button>
+            ))}
+          </Box>
           <Typography
             variant="h6"
             noWrap
@@ -91,7 +93,7 @@ const pages = ['Games', 'Genres', 'Upcoming']
           >
           </Typography>
           <Button
-            variant="outlined"
+            href="/login"
             size="large"
             edge="start"
             color="inherit"
@@ -101,7 +103,7 @@ const pages = ['Games', 'Genres', 'Upcoming']
             Log In
           </Button>
           <Button
-            variant="outlined"
+            href="/register"
             size="large"
             edge="start"
             color="inherit"

@@ -1,0 +1,7 @@
+body {
+    background: rgb(14,37,153);
+    background: radial-gradient(circle, rgba(14,37,153,1) 0%, rgba(5,5,17,1) 100%);
+    min-height: 100vh;
+    color: white;
+  }
+

@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import SearchAppBar from './AppBar';
+import './Styles.css';
 
 function Copyright(props) {
   return (
@@ -29,7 +30,17 @@ function Copyright(props) {
   );
 }
 
-const defaultTheme = createTheme();
+const defaultTheme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#3f51b5',
+    },
+    secondary: {
+      main: '#f50057',
+    },
+  },
+});
 
 export default function Login() {
   const [error, setError] = useState(false);
@@ -112,13 +123,13 @@ export default function Login() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="#" variant="body2" color="inherit">
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/register" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                <Link href="/register" variant="body2" color="inherit">
+                  Don't have an account? Sign Up
                 </Link>
               </Grid>
             </Grid>
