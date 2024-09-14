@@ -1,23 +1,12 @@
 import React from 'react';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
+import customTheme from './CustomTheme';
 import SearchAppBar from './AppBar';
 import './Styles.css';
 
-const defaultTheme = createTheme({
-  palette: {
-    mode: 'dark',
-    primary: {
-      main: '#3f51b5',
-    },
-    secondary: {
-      main: '#f50057',
-    },
-  },
-});
-
 const Home = () => {
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={customTheme}>
       <SearchAppBar/>
     </ThemeProvider>
   );

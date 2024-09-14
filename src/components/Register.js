@@ -9,11 +9,12 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import SearchAppBar from './AppBar';
 import './Styles.css';
+import customTheme from './CustomTheme';
 
 function Copyright(props) {
   return (
@@ -27,18 +28,6 @@ function Copyright(props) {
     </Typography>
   );
 }
-
-const defaultTheme = createTheme({
-  palette: {
-    mode: 'dark',
-    primary: {
-      main: '#3f51b5',
-    },
-    secondary: {
-      main: '#f50057',
-    },
-  },
-});
 
 export default function Register() {
   const [error, setError] = useState(false);
@@ -71,7 +60,7 @@ export default function Register() {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={customTheme}>
       <SearchAppBar/>
       <Container component="main" maxWidth="xs">
         <CssBaseline />

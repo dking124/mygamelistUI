@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -9,6 +9,9 @@ import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import axios from 'axios';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -54,6 +57,45 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function SearchAppBar() {
 const pages = ['games', 'genres', 'upcoming', 'about']
+const [isLoggedIn, setIsLoggedIn] = useState(false);
+const [username, setUsername] = useState('');
+const [anchorEl, setAnchorEl] = React.useState(null);
+const open = Boolean(anchorEl);
+const handleClick = (event) => {
+  setAnchorEl(event.currentTarget);
+};
+const handleClose = () => {
+  setAnchorEl(null);
+};
+
+useEffect (() => {
+  const fetchUsername = async () => {
+    const token = localStorage.getItem('access_token');
+    if (token){
+      await axios.get('http://127.0.0.1:8000/igdb/api/user/',
+        {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        }})
+      .then((response) => {
+        setUsername(response.data.username);
+        setIsLoggedIn(true);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoggedIn(false);
+      });
+    }
+  }
+  fetchUsername();
+}, []);
+
+const handleLogout = () => {
+  localStorage.removeItem('access_token');
+  setIsLoggedIn(false);
+  setUsername('');
+};
 
   return (
     <Box sx={{ flexGrow: 1, display: { xs: 'flex'} }}>
@@ -92,26 +134,56 @@ const pages = ['games', 'genres', 'upcoming', 'about']
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
           </Typography>
-          <Button
-            href="/login"
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="login"
-            sx={{ mr: 2 }}
-          >
-            Log In
-          </Button>
-          <Button
-            href="/register"
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="signup"
-            sx={{ mr: 1 }}
-          >
-            Sign Up
-          </Button>
+          {isLoggedIn ? (
+            <div>
+              <Button
+                id="basic-button"
+                aria-controls={open ? 'basic-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+                onClick={handleClick}
+              >
+                {username}
+              </Button>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button',
+                }}
+              >
+                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleClose}>Game List</MenuItem>
+                <MenuItem onClick={handleClose}>Settings</MenuItem>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              </Menu>
+            </div>
+          ) : (
+            <div>
+              <Button
+                href="/login"
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="login"
+                sx={{ mr: 2 }}
+              >
+                Log In
+              </Button>
+              <Button
+                href="/register"
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="signup"
+                sx={{ mr: 1 }}
+              >
+                Sign Up
+              </Button>
+            </div>
+          ) }
         </Toolbar>
       </AppBar>
     </Box>
